@@ -14,13 +14,12 @@ from java.awt import BorderLayout, Font, Color
 
 from java.io import PrintWriter
 
-
+pattern = r'[?&/.;]'
 regex = {
     "Linker": r'(?:"|\')((?!text\/javascript)((?:[a-zA-Z]{1,10}://|//)[^"\'/]{1,}\.[a-zA-Z]{2,}[^"\']{0,})|((?:/|\.\./|\./)[^"\'><,;|*()(%%$^/\\\[\]][^"\'><,;|()]{1,})|([a-zA-Z0-9_\-/]{1,}/[a-zA-Z0-9_\-/]{1,}\.(?:[a-zA-Z]{1,4}|action)(?:[\?|#][^"|\']{0,}|))|([a-zA-Z0-9_\-/]{1,}/[a-zA-Z0-9_\-/]{3,}(?:[\?|#][^"|\']{0,}|))|([a-zA-Z0-9_\-]{1,}\.(?:php|asp|aspx|jsp|json|action|html|js|txt|xml)(?:[\?|#][^"|\']{0,}|)))(?:"|\')',
 }
 sensitiveParamsFile = "sensitive-params.txt"
 ParamsFile="params.txt"
-
 def getSensitiveParamsFromFile():
     with open(sensitiveParamsFile) as spf:
         return [line.strip() for line in spf.readlines()]
@@ -33,9 +32,9 @@ class BurpExtender(IBurpExtender, ITab,IHttpListener,IExtensionStateListener):
         self._stdout = PrintWriter(callbacks.getStdout(), True)
         callbacks.registerHttpListener(self)
         callbacks.registerExtensionStateListener(self)
-        print 'Author: goddemon\n'
-        print 'Consulttools: burp-sensitive-param-extractor\n'
-        print 'Thanks: LSA'
+        print ('Author: goddemon\n')
+        print ('Consulttools: burp-sensitive-param-extractor\n')
+        print ('Thanks: LSA')
         self._callbacks.customizeUiComponent(self.getUiComponent())
         self._callbacks.addSuiteTab(self)
         self.requestParamDict = {}
@@ -104,7 +103,8 @@ class BurpExtender(IBurpExtender, ITab,IHttpListener,IExtensionStateListener):
                       newSensitiveParamsList.append(param)
                       sensitiveParamsList.add(param)
               with open(sensitiveParamsFile, 'a') as spf:
-                  if newSensitiveParamsList:
+                  match=re.compile(pattern).search(newSensitiveParamsList)
+                  if newSensitiveParamsList and not match:
                       for param in newSensitiveParamsList:
                           spf.write(param + '\n')
           else:
