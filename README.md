@@ -34,6 +34,7 @@ god_param
 
 访问一个网站后，进行输入参数这些后，进行填入参数或者访问后。
 
-https://github.com/goddemondemongod/god_param/blob/main/image.png
+![image](https://github.com/goddemondemongod/god_param/blob/main/image.png)
+
 
 点击read按钮即可将相关的参数文件直接读取到列表
