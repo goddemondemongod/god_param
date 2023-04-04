@@ -32,9 +32,9 @@ class BurpExtender(IBurpExtender, ITab,IHttpListener,IExtensionStateListener):
         self._stdout = PrintWriter(callbacks.getStdout(), True)
         callbacks.registerHttpListener(self)
         callbacks.registerExtensionStateListener(self)
-        print ('Author: goddemon\n')
-        print ('Consulttools: burp-sensitive-param-extractor\n')
-        print ('Thanks: LSA')
+        print 'Author: goddemon\n'
+        print 'Consulttools: burp-sensitive-param-extractor\n'
+        print 'Thanks: LSA'
         self._callbacks.customizeUiComponent(self.getUiComponent())
         self._callbacks.addSuiteTab(self)
         self.requestParamDict = {}
@@ -103,10 +103,10 @@ class BurpExtender(IBurpExtender, ITab,IHttpListener,IExtensionStateListener):
                       newSensitiveParamsList.append(param)
                       sensitiveParamsList.add(param)
               with open(sensitiveParamsFile, 'a') as spf:
-                  match=re.compile(pattern).search(newSensitiveParamsList)
-                  if newSensitiveParamsList and not match:
+                  if newSensitiveParamsList :
                       for param in newSensitiveParamsList:
-                          spf.write(param + '\n')
+                          if "}" not in param and ";" not in param and "{" not in param and "," not in param and "|" not in param and "/" not in param and "?" not in param:
+                                 spf.write(param + '\n')
           else:
               print("没有收到响应") 
 
@@ -142,9 +142,10 @@ class BurpExtender(IBurpExtender, ITab,IHttpListener,IExtensionStateListener):
                            sensitiveParamsList.add(param)
 
             with open(sensitiveParamsFile, 'a') as spf:  
-               if newSensitiveParamsList:  
+               if newSensitiveParamsList :  
                    for param in newSensitiveParamsList:  
-                       spf.write(param + '\n')
+                          if "}" not in param and ";" not in param and "{" not in param and "," not in param and "|" not in param and "/" not in param and "?" not in param:
+                             spf.write(param + '\n')
         else:
             print("resultSensitiveParamsDict is not a dictionary")
 
@@ -167,7 +168,8 @@ class BurpExtender(IBurpExtender, ITab,IHttpListener,IExtensionStateListener):
           self.copySensitiveParamsToFile()  # 先复制 sensitive-params.txt 的内容到 a.txt 文件中
           with open(ParamsFile) as f:
                content = f.read()
-          self.sensitiveParamsRegularTextArea.setText(content)
+               unique_content = set(content.split('\n'))
+          self.sensitiveParamsRegularTextArea.setText('\n'.join(unique_content))
 
     def exportRst(self, event):
         chooseFile = JFileChooser()
