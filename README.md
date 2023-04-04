@@ -8,7 +8,6 @@ god_param
 
 
 
-
 增加功能：
 
 ①修改toolFlag，使其能够自动获取到所有的burp拓展的参数。
@@ -38,3 +37,8 @@ god_param
 
 
 点击read按钮即可将相关的参数文件直接读取到列表
+
+
+
+参考插件地址：
+https://github.com/theLSA/burp-sensitive-param-extractor
