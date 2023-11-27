@@ -44,6 +44,9 @@ god_param
 https://github.com/theLSA/burp-sensitive-param-extractor
 
 
+
+
+
 2023.11.27日更改
 增加白名单精准控制，防止流量过大
 
